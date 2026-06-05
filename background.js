@@ -32,17 +32,27 @@ async function setOldTabId(Id) {
 
 async function syncTabs(activeInfo) {
   const currentTabId = activeInfo.tabId;
+  
+  const settings = await chrome.storage.local.get({
+    duckPercent: 25,
+    duckNonYoutube: true
+  });
+  
+  const duckMultiplier = settings.duckPercent / 100;
+
   try {
     const currentTab = await chrome.tabs.get(currentTabId);
-    if (!currentTab.url?.includes("youtube.com")) {
-      return;
+    
+    if (!currentTab.url?.includes("youtube.com") && !settings.duckNonYoutube) {
+      return; 
     }
   } catch (e) {
     return;
   }
-  
+
   const storedVolumes = await getVolumeState();
   const oldTabId = await getOldTabId();
+
   if (oldTabId && oldTabId !== currentTabId) {
     try {
       const oldTab = await chrome.tabs.get(oldTabId);
@@ -56,11 +66,10 @@ async function syncTabs(activeInfo) {
 
         if (playerVolume !== null && playerVolume !== undefined) {
           const baseline = storedVolumes[oldTabId] ?? 0.5;
-          const expectedDuck = baseline * 0.25;
+          const expectedDuck = baseline * duckMultiplier;
 
           if (Math.abs(playerVolume - expectedDuck) > 0.01 && Math.abs(playerVolume - baseline) > 0.01) {
             storedVolumes[oldTabId] = playerVolume;
-            console.log(`Updated user baseline for tab ${oldTabId} to ${playerVolume}`);
           }
         }
       }
@@ -75,21 +84,13 @@ async function syncTabs(activeInfo) {
     }
 
     const baseline = storedVolumes[tab.id];
+    const targetVolume = (tab.id === currentTabId) ? baseline : (baseline * duckMultiplier);
 
-    if (tab.id === currentTabId) {
-      await chrome.scripting.executeScript({
-        target: { tabId: tab.id },
-        func: (vol) => { const v = document.querySelector('video'); if (v) v.volume = vol; },
-        args: [baseline]
-      }).catch(() => {});
-    } else {
-      const duckedVolume = baseline * 0.25;
-      await chrome.scripting.executeScript({
-        target: { tabId: tab.id },
-        func: (vol) => { const v = document.querySelector('video'); if (v) v.volume = vol; },
-        args: [duckedVolume]
-      }).catch(() => {});
-    }
+    await chrome.scripting.executeScript({
+      target: { tabId: tab.id },
+      func: (vol) => { const v = document.querySelector('video'); if (v) v.volume = vol; },
+      args: [targetVolume]
+    }).catch(() => {});
   }
 
   await setVolumeState(storedVolumes);

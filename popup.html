@@ -1,0 +1,124 @@
+
+	<!-- Muffler - Auto-Duck Volume Extension for Chrome -->
+	
+	<!-- AUTHOR Marc-Daniel DALEBA -->
+	<!-- DATE 2026-06-05 -->
+	<!-- LICENSE MIT -->
+	<!-- DESC -->
+	<!-- 	Extension for Chrome-based browsers. -->
+	<!-- 	Nice extension to auto-duck Youtube tabs if you -->
+	<!-- 	have multiple running. -->
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <style>
+    body {
+      font-family: system-ui, -apple-system, sans-serif;
+      width: 230px;
+      padding: 14px;
+      margin: 0;
+      background-color: #121212;
+      color: #ffffff;
+    }
+    .header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 16px;
+      border-bottom: 1px solid #292929;
+      padding-bottom: 10px;
+    }
+    .header h3 {
+      margin: 0;
+      font-size: 15px;
+      font-weight: 600;
+      letter-spacing: 0.3px;
+    }
+    .option-box {
+      margin-bottom: 14px;
+    }
+    .label-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 6px;
+    }
+    label {
+      font-size: 11px;
+      font-weight: 700;
+      color: #aaaaaa;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .val-text {
+      font-size: 12px;
+      font-weight: 700;
+      color: #ffb703;
+      background: #1e1e1e;
+      padding: 2px 6px;
+      border-radius: 4px;
+      min-width: 28px;
+      text-align: center;
+    }
+    .slider-container {
+      display: flex;
+      align-items: center;
+    }
+    input[type="range"] {
+      flex: 1;
+      accent-color: #ffb703;
+      cursor: pointer;
+      height: 4px;
+      background: #2c2c2c;
+      border-radius: 2px;
+    }
+    .checkbox-container {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      margin-top: 16px;
+      padding-top: 12px;
+      border-top: 1px solid #292929;
+    }
+    input[type="checkbox"] {
+      accent-color: #06d6a0;
+      width: 15px;
+      height: 15px;
+      cursor: pointer;
+      margin: 0;
+      margin-top: 1px;
+    }
+    .checkbox-label {
+      font-size: 12px;
+      color: #e0e0e0;
+      cursor: pointer;
+      line-height: 1.4;
+      user-select: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <h3>Muffler Settings</h3>
+  </div>
+  
+  <div class="option-box">
+    <div class="label-row">
+      <label for="duckPercent">Duck Volume</label>
+      <span id="duckVal" class="val-text">25%</span>
+    </div>
+    <div class="slider-container">
+      <input type="range" id="duckPercent" min="0" max="100" value="25">
+    </div>
+  </div>
+
+  <div class="checkbox-container">
+    <input type="checkbox" id="duckNonYoutube" checked>
+    <label for="duckNonYoutube" class="checkbox-label">Duck on non-YouTube tabs</label>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>

@@ -1,8 +1,20 @@
+
+//	Muffler - Auto-Duck Volume Extension for Chrome
+//	
+//	AUTHOR Marc-Daniel DALEBA
+//	DATE 2026-06-05
+//	LICENSE MIT
+//	DESC
+//		Extension for Chrome-based browsers.
+//		Nice extension to auto-duck Youtube tabs if you
+//		have multiple running.
+
+
 {
   "manifest_version": 3,
   "name": "Muffler",
   "version": "1.0.0",
-  "description": "Automatically ducks background YouTube tabs to 25% volume and restores the active tab to its full baseline.",
+  "description": "Automatically ducks background YouTube tabs and restores the active tab to its full baseline.",
   "author": "Marc-Daniel DALEBA",
   "permissions": [
     "tabs",
@@ -21,6 +33,7 @@
     "128": "icons/icon128.png"
   },
   "action": {
+    "default_popup": "popup.html",
     "default_icon": {
       "16": "icons/icon16.png",
       "48": "icons/icon48.png",
