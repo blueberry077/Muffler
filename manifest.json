@@ -13,7 +13,7 @@
 {
   "manifest_version": 3,
   "name": "Muffler",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "Automatically ducks background YouTube tabs and restores the active tab to its full baseline.",
   "author": "Marc-Daniel DALEBA",
   "permissions": [
