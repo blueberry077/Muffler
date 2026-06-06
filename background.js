@@ -98,12 +98,21 @@ async function syncTabs(activeInfo) {
 }
 
 chrome.tabs.onActivated.addListener(syncTabs);
+chrome.windows.onFocusChanged.addListener(async (windowId) => {
+  if (windowId === chrome.windows.WINDOW_ID_NONE) return;
+  try {
+    const [activeTab] = await chrome.tabs.query({ active: true, windowId: windowId });
+    if (activeTab) await syncTabs({ tabId: activeTab.id });
+  } catch (e) {}
+});
 
 chrome.tabs.onUpdated.addListener((tabId, changeInfo, tabInfo) => {
   if (changeInfo.status === 'complete' && tabInfo.url?.includes("youtube.com")) {
-    chrome.tabs.query({ active: true, currentWindow: true }, ([activeTab]) => {
-      if (activeTab) syncTabs({ tabId: activeTab.id });
-    });
+    try {
+	  chrome.tabs.query({ active: true, currentWindow: true }, ([activeTab]) => {
+        if (activeTab) syncTabs({ tabId: activeTab.id });
+	  });
+	} catch (e) {}
   }
 });
 
