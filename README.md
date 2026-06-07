@@ -17,6 +17,10 @@
 - **Context Preservation:** Smartly ignores non-media domains (like GitHub or Google) to freeze your background states without accidental audio death-spirals.
 - **Ultra Lightweight:** Running entirely on Manifest V3 via an asynchronous storage state machine with zero background overhead.
 
+## Installation (Chrome Web Store)
+
+You can download the extension from the [Chrome Web Store](https://chromewebstore.google.com/detail/muffler/ineddfgdkeiidcdedfjdalfokgmjkjjf).
+
 ## Installation (Local Development)
 
 1. Clone or download this repository.
